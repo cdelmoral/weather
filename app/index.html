@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html ng-app="weather">
+
+<head>
+
+	<title>weather</title>
+
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="stylesheet.css"
+
+</head>
+
+<body ng-controller="MainController as MainCtrl">
+
+	<script type="text/javascript" src="angular.min.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+
+	<!-- Google Maps API -->
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+
+    <div id="map-canvas"></div>
+
+	<form name="inputForm">
+		<fieldset class="form-group">
+    		<input class="form-control" placeholder="Enter city" />
+  		</fieldset>
+  		<fieldset class="form-group">
+    		<input type="submit" class="btn btn-primary pull-right" value="Search" />
+  		</fieldset>
+	</form>
+
+</body>
+
+</html>
