@@ -8,10 +8,7 @@
 	});
 	google.load('visualization', '1.1', {packages: ['line']});
 
-	var app = angular.module('weather', [
-		'forecast-service',
-		'google-charts-directive'
-	]);
+	var app = angular.module('weather', ['google-charts-directive']);
 
 	var URL_F_BASE = "https://api.forecast.io/forecast/";
 	var FORECAST_KEY = "1c673c349f398fbbbe6ab58f290abefe";
@@ -27,7 +24,7 @@
 		};
 	});
 
-	app.controller('MainController', ['$scope', '$http', 'forecastService', function($scope, $http, forecastService) {
+	app.controller('MainController', ['$scope', '$http', function($scope, $http) {
 		this.marker = null;
 		this.map = null;
 		this.address = {};
@@ -58,7 +55,7 @@
 			var forecastUrl = URL_F_BASE + FORECAST_KEY + "/" + lat + "," + lng;
 			$http.get(forecastUrl).success(function (data) {
 				ctrl.forecast = data;
-				ctrl.drawChart();
+				$scope.forecast = data;
 			});
 		};
 
@@ -85,18 +82,6 @@
 				}
 				ctrl.retrieveForecast();
 			});
-		};
-
-		this.drawChart = function () {
-			$scope.gChart = {};
-			$scope.gChart.data = forecastService.weeklyMinMaxTemps(ctrl.forecast);
-			$scope.gChart.options = {
-				chart: {
-					title: 'Maximum and minimum temperatures'
-				},
-				width: 900,
-				height: 500
-			};
 		};
 
 		this.init();
