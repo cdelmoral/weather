@@ -12,6 +12,7 @@
 
 <body ng-controller="MainController as MainCtrl">
 
+	<!-- AngularJS -->
 	<script type="text/javascript" src="angular.min.js"></script>
 	<script type="text/javascript" src="app.js"></script>
 
@@ -20,14 +21,20 @@
 
     <div id="map-canvas"></div>
 
-	<form name="inputForm">
+	<form name="inputForm" ng-submit="MainCtrl.submitAddress()">
 		<fieldset class="form-group">
-    		<input class="form-control" placeholder="Enter city" />
+    		<input ng-model="MainCtrl.address.city" class="form-control" placeholder="Enter city" />
   		</fieldset>
   		<fieldset class="form-group">
-    		<input type="submit" class="btn btn-primary pull-right" value="Search" />
+    		<input type="submit" class="btn btn-primary pull-right" value="Search"/>
   		</fieldset>
 	</form>
+
+	<div>
+		<p>Current temperature: {{MainCtrl.forecast.currently.temperature | temp}}</p>
+		<p>Probability of rain: {{MainCtrl.forecast.currently.precipProbability}}</p>
+		<p>Pressure: {{MainCtrl.forecast.currently.pressure}}</p>
+	</div>
 
 </body>
 
