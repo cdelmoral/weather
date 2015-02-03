@@ -17,8 +17,8 @@
 		service.weeklyMinMaxTemps = function (forecast) {
 			var data = new google.visualization.DataTable();
 			data.addColumn('string', 'Day')
-			data.addColumn('number', 'High');
 			data.addColumn('number', 'Low');
+			data.addColumn('number', 'High');
 
 			if (forecast.daily.data.length > 0) {
 				var dailyData = forecast.daily.data;

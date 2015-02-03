@@ -22,8 +22,9 @@
 	<script type="text/javascript" src="angular.min.js"></script>
 
 	<!-- weather app -->
-	<script type="text/javascript" src="forecast-service.js"></script>
 	<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript" src="forecast-service.js"></script>
+	<script type="text/javascript" src="google-charts-directive.js"></script>
 
     <div id="map-canvas"></div>
 
@@ -44,7 +45,7 @@
 		<p>This week: {{MainCtrl.forecast.daily.summary}}</p>
 	</div>
 
-	<div id="chart_div"></div>
+	<div id="chart_div" google-chart></div>
 
 </body>
 

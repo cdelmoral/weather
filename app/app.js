@@ -1,8 +1,4 @@
 (function() {
-	var app = angular.module('weather', ['forecast-service']);
-	var URL_F_BASE = "https://api.forecast.io/forecast/";
-	var FORECAST_KEY = "1c673c349f398fbbbe6ab58f290abefe";
-
 	/**
 	 * We need to manually start angular as we need to wait for the google charting
 	 * libs to be ready.
@@ -11,6 +7,14 @@
 		angular.bootstrap(document.body, ['weather']);
 	});
 	google.load('visualization', '1.1', {packages: ['line']});
+
+	var app = angular.module('weather', [
+		'forecast-service',
+		'google-charts-directive'
+	]);
+
+	var URL_F_BASE = "https://api.forecast.io/forecast/";
+	var FORECAST_KEY = "1c673c349f398fbbbe6ab58f290abefe";
 
 	app.filter('temp', function($filter) {
 		return function(input) {
@@ -23,7 +27,7 @@
 		};
 	});
 
-	app.controller('MainController', ['$http', 'forecastService', function($http, forecastService) {
+	app.controller('MainController', ['$scope', '$http', 'forecastService', function($scope, $http, forecastService) {
 		this.marker = null;
 		this.map = null;
 		this.address = {};
@@ -84,19 +88,15 @@
 		};
 
 		this.drawChart = function () {
-			var data = forecastService.weeklyMinMaxTemps(ctrl.forecast);
-
-			var options = {
+			$scope.gChart = {};
+			$scope.gChart.data = forecastService.weeklyMinMaxTemps(ctrl.forecast);
+			$scope.gChart.options = {
 				chart: {
 					title: 'Maximum and minimum temperatures'
 				},
 				width: 900,
 				height: 500
 			};
-
-			var chart = new google.charts.Line(document.getElementById('chart_div'));
-
-			chart.draw(data, options);
 		};
 
 		this.init();
