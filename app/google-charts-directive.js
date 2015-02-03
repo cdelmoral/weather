@@ -43,7 +43,7 @@
 							data: null,
 							options: {
 								chart: {
-									title: 'Maximum and minimum temperatures'
+									title: attrs.title
 								},
 								width: 900,
 								height: 500
