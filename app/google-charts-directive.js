@@ -13,9 +13,32 @@
 			'Saturday'
 		];
 
-		var weeklyMinMaxTemps = function(forecast) {
+		var getChart = function(type) {
+			switch(type) {
+				case "weekly-min-max-temps":
+					return weeklyMinMaxTemps;
+				case "weekly-precip-acc":
+					return weeklyPrecipAcc;
+				default:
+					return null;
+			}
+		};
+
+		var weeklyMinMaxTemps = function(forecast, elm, attrs) {
+			var gChart = {
+				data: null,
+				options: {
+					title: "Maximum and minimum temperatures",
+					width: 400,
+					height: 250,
+					vAxis: {
+						title: "Temperature (\u00B0F)"
+					}
+				}
+			};
+
 			var data = new google.visualization.DataTable();
-			data.addColumn('string', 'Day')
+			data.addColumn('string', 'Day');
 			data.addColumn('number', 'Low');
 			data.addColumn('number', 'High');
 
@@ -31,7 +54,40 @@
 				}
 			}
 
-			return data;
+			var chart = new google.visualization.LineChart(elm[0]);
+			chart.draw(data, gChart.options);
+		};
+
+		var weeklyPrecipAcc = function(forecast, elm, attrs) {
+			var gChart = {
+				data: null,
+				options: {
+					title: "Accumulated precipitation",
+					width: 400,
+					height: 250,
+					vAxis: {
+						title: "Accumulated precipitation"
+					}
+				}
+			};
+
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'Day');
+			data.addColumn('number', 'Probability');
+
+			if (forecast.daily.data.length > 0) {
+				var dailyData = forecast.daily.data;
+				for (var i = 0; i < dailyData.length; i++) {
+					var dayOfWeek = new Date(dailyData[i].time * 1000);
+					data.addRow([
+						WEEK_DAYS[dayOfWeek.getDay()],
+						dailyData[i].precipAccumulation
+					]);
+				}
+			}
+
+			var chart = new google.visualization.ColumnChart(elm[0]);
+			chart.draw(data, gChart.options);
 		};
 
 		return {
@@ -39,20 +95,7 @@
 			link: function($scope, elm, attrs) {
 				$scope.$watch('forecast', function() {
 					if ($scope.forecast !== undefined) {
-						var gChart = {
-							data: null,
-							options: {
-								chart: {
-									title: attrs.title
-								},
-								width: 900,
-								height: 500
-							}
-						};
-						gChart.data = weeklyMinMaxTemps($scope.forecast);
-
-						var chart = new google.charts.Line(elm[0]);
-						chart.draw(gChart.data, gChart.options);
+						getChart(attrs.type)($scope.forecast, elm, attrs);
 					}
 				}, true);
 			}

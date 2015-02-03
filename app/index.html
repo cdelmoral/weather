@@ -24,6 +24,7 @@
 	<!-- weather app -->
 	<script type="text/javascript" src="app.js"></script>
 	<script type="text/javascript" src="google-charts-directive.js"></script>
+	<script type="text/javascript" src="icon-directive.js"></script>
 
     <div id="map-canvas"></div>
 
@@ -37,6 +38,8 @@
 	</form>
 
 	<div>
+		<weather-icon></weather-icon>
+		<h1>{{MainCtrl.address.city}}</h1>
 		<p>Current temperature: {{MainCtrl.forecast.currently.temperature | temp}}</p>
 		<p>Probability of rain: {{MainCtrl.forecast.currently.precipProbability}}</p>
 		<p>Pressure: {{MainCtrl.forecast.currently.pressure}}</p>
@@ -44,7 +47,10 @@
 		<p>This week: {{MainCtrl.forecast.daily.summary}}</p>
 	</div>
 
-	<google-chart title="Maximuma and minimum temperatures" type="blabla"></google-chart>
+
+	<google-chart title="Maximum and minimum temperatures" type="weekly-min-max-temps"></google-chart>
+	<google-chart title="Accumulated precipitation" type="weekly-precip-acc"></google-chart>
+
 
 </body>
 

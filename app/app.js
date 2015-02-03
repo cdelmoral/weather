@@ -2,13 +2,17 @@
 	/**
 	 * We need to manually start angular as we need to wait for the google charting
 	 * libs to be ready.
-	 */  
-	google.setOnLoadCallback(function () {  
+	 */
+	google.setOnLoadCallback(function () {
 		angular.bootstrap(document.body, ['weather']);
 	});
-	google.load('visualization', '1.1', {packages: ['line']});
+	google.load('visualization', '1', {packages: ['corechart']});
+	// google.load('visualization', '1', {packages: ['corechart']})
 
-	var app = angular.module('weather', ['google-charts-directive']);
+	var app = angular.module('weather', [
+		'google-charts-directive',
+		'icon-directive'
+		]);
 
 	var URL_F_BASE = "https://api.forecast.io/forecast/";
 	var FORECAST_KEY = "1c673c349f398fbbbe6ab58f290abefe";
