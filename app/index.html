@@ -5,7 +5,11 @@
 
 	<title>weather</title>
 
-	<link rel="stylesheet" type="text/css" href="bootstrap.min.css"></link>
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 	<link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
 
 </head>
@@ -26,27 +30,33 @@
 	<script type="text/javascript" src="google-charts-directive.js"></script>
 	<script type="text/javascript" src="icon-directive.js"></script>
 
-    <div id="map-canvas"></div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-8">
+				<div id="map-canvas" class="google-maps"></div>
+			</div>
+			<div class="col-xs-4">
+				<form name="inputForm" ng-submit="MainCtrl.submitAddress()">
+					<fieldset class="form-group">
+						<input ng-model="MainCtrl.address.city" class="form-control" placeholder="Enter city" />
+					</fieldset>
+					<fieldset class="form-group">
+						<input type="submit" class="btn btn-primary pull-right" value="Search"/>
+					</fieldset>
+				</form>
 
-	<form name="inputForm" ng-submit="MainCtrl.submitAddress()">
-		<fieldset class="form-group">
-    		<input ng-model="MainCtrl.address.city" class="form-control" placeholder="Enter city" />
-  		</fieldset>
-  		<fieldset class="form-group">
-    		<input type="submit" class="btn btn-primary pull-right" value="Search"/>
-  		</fieldset>
-	</form>
-
-	<div>
-		<weather-icon></weather-icon>
-		<h1>{{MainCtrl.address.city}}</h1>
-		<p>Current temperature: {{MainCtrl.forecast.currently.temperature | temp}}</p>
-		<p>Probability of rain: {{MainCtrl.forecast.currently.precipProbability}}</p>
-		<p>Pressure: {{MainCtrl.forecast.currently.pressure}}</p>
-		<p>Next hour: {{MainCtrl.forecast.minutely.summary}}</p>
-		<p>This week: {{MainCtrl.forecast.daily.summary}}</p>
+				<div>
+					<weather-icon></weather-icon>
+					<h1>{{MainCtrl.address.city}}</h1>
+					<p>Current temperature: {{MainCtrl.forecast.currently.temperature | temp}}</p>
+					<p>Probability of rain: {{MainCtrl.forecast.currently.precipProbability}}</p>
+					<p>Pressure: {{MainCtrl.forecast.currently.pressure}}</p>
+					<p>Next hour: {{MainCtrl.forecast.minutely.summary}}</p>
+					<p>This week: {{MainCtrl.forecast.daily.summary}}</p>
+				</div>
+			</div>
+		</div>
 	</div>
-
 
 	<google-chart title="Maximum and minimum temperatures" type="weekly-min-max-temps"></google-chart>
 	<google-chart title="Accumulated precipitation" type="weekly-precip-acc"></google-chart>

@@ -1,6 +1,6 @@
-#map-canvas {
-	height: 0;
-	width: 0;
+.google-maps {
+	width: 400px;
+	height: 400px;
 }
 
 .form-group {
