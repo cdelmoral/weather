@@ -1,4 +1,14 @@
 (function() {
+
+	/**
+	 * We need to manually start angular as we need to wait for the google charting
+	 * libs to be ready.
+	 */  
+	google.setOnLoadCallback(function () {  
+		angular.bootstrap(document.body, ['weather']);
+	});
+	google.load('visualization', '1.1', {packages: ['line']});
+
 	var app = angular.module('weather', []);
 	var URL_F_BASE = "https://api.forecast.io/forecast/";
 	var FORECAST_KEY = "1c673c349f398fbbbe6ab58f290abefe";
@@ -45,6 +55,7 @@
 			var forecastUrl = URL_F_BASE + FORECAST_KEY + "/" + lat + "," + lng;
 			$http.get(forecastUrl).success(function (data) {
 				ctrl.forecast = data;
+				ctrl.drawChart();
 			});
 		};
 
@@ -71,6 +82,38 @@
 				}
 				ctrl.retrieveForecast();
 			});
+		};
+
+		this.drawChart = function () {
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'Day')
+			data.addColumn('number', 'High');
+			data.addColumn('number', 'Low');
+
+			if (ctrl.forecast.daily.data.length > 0) {
+				var dailyData = ctrl.forecast.daily.data;
+				var daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+				for (var i = 0; i < dailyData.length; i++) {
+					var dayOfWeek = new Date(dailyData[i].time * 1000);
+					data.addRow([
+						daysOfTheWeek[dayOfWeek.getDay()],
+						dailyData[i].temperatureMin,
+						dailyData[i].temperatureMax
+					]);
+				}
+			}
+
+			var options = {
+				chart: {
+					title: 'Maximum and minimum temperatures'
+				},
+				width: 900,
+				height: 500
+			};
+
+			var chart = new google.charts.Line(document.getElementById('chart_div'));
+
+			chart.draw(data, options);
 		};
 
 		this.init();

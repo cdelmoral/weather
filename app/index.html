@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="weather">
+<html>
 
 <head>
 
@@ -12,12 +12,15 @@
 
 <body ng-controller="MainController as MainCtrl">
 
+	<!-- Google Maps API -->
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+
+	<!-- Google Charts -->
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
 	<!-- AngularJS -->
 	<script type="text/javascript" src="angular.min.js"></script>
 	<script type="text/javascript" src="app.js"></script>
-
-	<!-- Google Maps API -->
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
 
     <div id="map-canvas"></div>
 
@@ -34,7 +37,11 @@
 		<p>Current temperature: {{MainCtrl.forecast.currently.temperature | temp}}</p>
 		<p>Probability of rain: {{MainCtrl.forecast.currently.precipProbability}}</p>
 		<p>Pressure: {{MainCtrl.forecast.currently.pressure}}</p>
+		<p>Next hour: {{MainCtrl.forecast.minutely.summary}}</p>
+		<p>This week: {{MainCtrl.forecast.daily.summary}}</p>
 	</div>
+
+	<div id="chart_div"></div>
 
 </body>
 
