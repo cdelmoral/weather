@@ -11,7 +11,8 @@
 
 	var app = angular.module('weather', [
 		'google-charts-directive',
-		'icon-directive'
+		'icon-directive',
+		'firebase'
 		]);
 
 	var URL_F_BASE = "https://api.forecast.io/forecast/";
@@ -28,7 +29,7 @@
 		};
 	});
 
-	app.controller('MainController', ['$scope', '$http', function($scope, $http) {
+	app.controller('MainController', ['$scope', '$http', '$firebase', function($scope, $http, $firebase) {
 		this.marker = null;
 		this.map = null;
 		this.address = {};
@@ -44,6 +45,10 @@
 		var lng = this.address.longitude;
 
 		this.init = function () {
+			var ref = new Firebase("https://vivid-inferno-5672.firebaseio.com/cities");
+			var sync = $firebase(ref);
+			ctrl.syncObject = sync.$asArray();
+
 			var mapOptions = {
 				key: "AIzaSyDmHFUiBuupTJdS9HFLT3zC4Qgd86ZOv6g",
 				center: { lat: lat, lng: lng},
@@ -63,6 +68,17 @@
 			});
 		};
 
+		this.submitSaved = function (option) {
+			if (option !== null) {
+				ctrl.address.city = option.city;
+				ctrl.submitAddress();
+			}
+		}
+
+		this.saveCity = function () {
+			ctrl.syncObject.$add({city: this.address.city});
+		}
+
 		this.submitAddress = function () {
 			var geocoder = new google.maps.Geocoder();
 			geocoder.geocode( { 'address': this.address.city}, function(results, status) {
@@ -81,6 +97,8 @@
 						map: ctrl.map,
 						position: location
 					});
+
+					// $scope.syncObject.$add({city: ctrl.address.city});
 				} else {
 					alert('Geocode was not successful for the following reason: ' + status);
 				}
