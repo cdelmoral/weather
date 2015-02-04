@@ -57,6 +57,7 @@
 
 		this.retrieveForecast = function () {
 			var forecastUrl = URL_F_BASE + FORECAST_KEY + "/" + lat + "," + lng;
+			delete $http.defaults.headers.common['X-Requested-With'];
 			$http.get(forecastUrl).success(function (data) {
 				ctrl.forecast = data;
 				$scope.forecast = data;
