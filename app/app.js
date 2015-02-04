@@ -90,4 +90,17 @@
 
 		this.init();
 	}]);
+
+	app.controller("TabController", function() {
+		this.tab = 1;
+		var ctrl = this;
+
+		this.isSet = function(checkTab) {
+			return ctrl.tab === checkTab;
+		};
+
+		this.setTab = function(activeTab) {
+			ctrl.tab = activeTab;
+		};
+	});
 })();

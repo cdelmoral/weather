@@ -15,20 +15,26 @@
 
 		var getChart = function(type) {
 			switch(type) {
-				case "weekly-min-max-temps":
-					return weeklyMinMaxTemps;
-				case "weekly-precip-acc":
-					return weeklyPrecipAcc;
+				case "daily-min-max-temps":
+					return dailyMinMaxTemps;
+				case "daily-precip-acc":
+					return dailyPrecipAcc;
+				case "hourly-temps":
+					return hourlyTemps;
+				case "hourly-precip-prob":
+					return hourlyPrecipProb;
 				default:
 					return null;
 			}
 		};
 
-		var weeklyMinMaxTemps = function(forecast, elm, attrs) {
+		var dailyMinMaxTemps = function(forecast, elm, attrs) {
 			var gChart = {
 				data: null,
 				options: {
 					title: "Maximum and minimum temperatures",
+					width: 500,
+					height: 300,
 					vAxis: {
 						title: "Temperature (\u00B0F)"
 					},
@@ -59,11 +65,48 @@
 			chart.draw(data, gChart.options);
 		};
 
-		var weeklyPrecipAcc = function(forecast, elm, attrs) {
+		var hourlyTemps = function(forecast, elm, attrs) {
+			var gChart = {
+				data: null,
+				options: {
+					title: "Temperature",
+					width: 500,
+					height: 300,
+					vAxis: {
+						title: "Temperature (\u00B0F)"
+					},
+					legend: {
+						position: "none"
+					}
+				}
+			};
+
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'Hour');
+			data.addColumn('number', 'Temperature');
+
+			if (forecast.hourly.data.length > 0) {
+				var hourlyData = forecast.hourly.data;
+				for (var i = 0; i < hourlyData.length; i++) {
+					var hourOfDay = new Date(hourlyData[i].time * 1000);
+					data.addRow([
+						hourOfDay.toTimeString() + " " + hourOfDay.getDate(),
+						hourlyData[i].temperature
+					]);
+				}
+			}
+
+			var chart = new google.visualization.LineChart(elm[0]);
+			chart.draw(data, gChart.options);
+		};
+
+		var dailyPrecipAcc = function(forecast, elm, attrs) {
 			var gChart = {
 				data: null,
 				options: {
 					title: "Accumulated precipitation",
+					width: 500,
+					height: 300,
 					vAxis: {
 						title: "Accumulated precipitation"
 					},
@@ -84,6 +127,41 @@
 					data.addRow([
 						WEEK_DAYS[dayOfWeek.getDay()],
 						dailyData[i].precipAccumulation
+					]);
+				}
+			}
+
+			var chart = new google.visualization.ColumnChart(elm[0]);
+			chart.draw(data, gChart.options);
+		};
+
+		var hourlyPrecipProb = function(forecast, elm, attrs) {
+			var gChart = {
+				data: null,
+				options: {
+					title: "Precipitation probability",
+					width: 500,
+					height: 300,
+					vAxis: {
+						title: "Precipitation probability"
+					},
+					legend: {
+						position: "none"
+					}
+				}
+			};
+
+			var data = new google.visualization.DataTable();
+			data.addColumn('string', 'Hour');
+			data.addColumn('number', 'Probability');
+
+			if (forecast.hourly.data.length > 0) {
+				var hourlyData = forecast.hourly.data;
+				for (var i = 0; i < hourlyData.length; i++) {
+					var hourOfDay = new Date(hourlyData[i].time * 1000);
+					data.addRow([
+						hourOfDay.toTimeString() + " " + hourOfDay.getDate(),
+						hourlyData[i].precipProbability
 					]);
 				}
 			}
