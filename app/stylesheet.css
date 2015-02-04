@@ -1,8 +1,12 @@
 .google-maps {
-	width: 400px;
-	height: 400px;
+	width: 100%;
+	height: 325px;
 }
 
 .form-group {
 	width: 200px;
+}
+
+.top-padding {
+	padding-top: 10px;
 }

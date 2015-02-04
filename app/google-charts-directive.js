@@ -29,10 +29,11 @@
 				data: null,
 				options: {
 					title: "Maximum and minimum temperatures",
-					width: 400,
-					height: 250,
 					vAxis: {
 						title: "Temperature (\u00B0F)"
+					},
+					legend: {
+						position: "none"
 					}
 				}
 			};
@@ -63,10 +64,11 @@
 				data: null,
 				options: {
 					title: "Accumulated precipitation",
-					width: 400,
-					height: 250,
 					vAxis: {
 						title: "Accumulated precipitation"
+					},
+					legend: {
+						position: "none"
 					}
 				}
 			};
@@ -92,6 +94,8 @@
 
 		return {
 			restrict: 'E',
+			template: "<div></div>",
+			replace: true,
 			link: function($scope, elm, attrs) {
 				$scope.$watch('forecast', function() {
 					if ($scope.forecast !== undefined) {
