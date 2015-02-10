@@ -1,8 +1,8 @@
 (function() {
 
-	var app = angular.module('weather-directives', []);
+	var app = angular.module('google-chart-directive', ['forecast-service']);
 
-	app.directive("googleChart", function() {
+	app.directive("googleChart", ['forecastService', function(forecastService) {
 		var WEEK_DAYS = [
 			'Sunday',
 			'Monday',
@@ -175,69 +175,10 @@
 			template: "<div></div>",
 			replace: true,
 			link: function($scope, elm, attrs) {
-				$scope.$watch('forecast', function() {
-					if ($scope.forecast !== undefined) {
-						getChart(attrs.type)($scope.forecast, elm, attrs);
-					}
-				}, true);
+				$scope.$on('forecastChanged', function() {
+					getChart(attrs.type)(forecastService.getForecast(), elm, attrs);
+				});
 			}
 		};
-	});
-
-	app.directive("weatherIcon", function() {
-		return {
-			restric: "E",
-			controller: function($scope) {
-				this.baseUrl = "./images/";
-				this.imageName = "";
-				this.imgurl = "";
-				var ctrl = this;
-
-				this.setImgUrl = function() {
-					if ($scope.forecast === undefined) {
-						return;
-					}
-					switch ($scope.forecast.currently.icon) {
-						case "clear-day":
-							ctrl.imageName = "clear-day.png";
-							break;
-						case "clear-night":
-							ctrl.imageName = "clear-night.png";
-							break;
-						case "cloudy":
-							ctrl.imageName = "cloudy.png";
-							break;
-						case "fog":
-							ctrl.imageName = "fog.png";
-							break;
-						case "partly-cloudy-day":
-							ctrl.imageName = "partly-cloudy-day.png";
-							break;
-						case "partly-cloudy-night":
-							ctrl.imageName = "partly-cloudy-night.png";
-							break;
-						case "rain":
-							ctrl.imageName = "rain.png";
-							break;
-						case "sleet":
-							ctrl.imageName = "sleet.png";
-							break;
-						case "snow":
-							ctrl.imageName = "snow.png";
-							break;
-						default:
-							ctrl.imageName = "";
-							break;
-					}
-					ctrl.imgurl = ctrl.baseUrl + ctrl.imageName;
-				};
-
-				$scope.$watch("forecast", function() {
-					ctrl.setImgUrl();
-				}, true);
-			},
-			templateUrl: "../../templates/icon.html",
-			controllerAs: "iconCtrl"
-		};
-	});
+	}]);
 })();

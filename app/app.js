@@ -7,12 +7,18 @@
 		angular.bootstrap(document.body, ['weather']);
 	});
 	google.load('visualization', '1', {packages: ['corechart']});
-	// google.load('visualization', '1', {packages: ['corechart']})
 
 	var app = angular.module('weather', [
-		'weather-directives',
-		'weather-controllers',
-		'weather-filters'
-		]);
+		'filters',
+		'location-service',
+		'google-maps-controller',
+		'form-controller',
+		'forecast-service',
+		'forecast-controller',
+		'tab-controller',
+		'google-chart-directive',
+		'db-service',
+		'weather-icon-directive'
+	]);
 
 })();

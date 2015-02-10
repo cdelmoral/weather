@@ -1,6 +1,6 @@
 (function() {
 
-	var app = angular.module("weather-filters", []);
+	var app = angular.module("filters", []);
 
 	app.filter('temp', function($filter) {
 		return function(input) {

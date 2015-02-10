@@ -18,7 +18,7 @@
 
 </head>
 
-<body ng-controller="MainController as MainCtrl">
+<body>
 
 	<!-- Google Maps API -->
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
@@ -37,49 +37,66 @@
 
 	<!-- weather app -->
 	<script type="text/javascript" src="app.js"></script>
-	<script type="text/javascript" src="./js/weather-directives.js"></script>
-	<script type="text/javascript" src="./js/weather-controllers.js"></script>
-	<script type="text/javascript" src="./js/weather-filters.js"></script>
+
+	<!-- Directives -->
+	<script type="text/javascript" src="components/google-chart/google-chart-directive.js"></script>
+	<script type="text/javascript" src="components/forecast/weather-icon-directive.js"></script>
+
+	<!-- Services -->
+	<script type="text/javascript" src="components/common/location-service.js"></script>
+	<script type="text/javascript" src="components/forecast/forecast-service.js"></script>
+	<script type="text/javascript" src="components/form/db-service.js"></script>
+
+	<!-- Controller -->
+	<script type="text/javascript" src="components/google-maps/google-maps-controller.js"></script>
+	<script type="text/javascript" src="components/form/form-controller.js"></script>
+	<script type="text/javascript" src="components/forecast/forecast-controller.js"></script>
+	<script type="text/javascript" src="components/google-chart/tab-controller.js"></script>
+
+	<!-- Filters -->
+	<script type="text/javascript" src="components/common/filters.js"></script>
 
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xs-4 top-padding text-right">
-				<select class="form-control" title="Saved cities" ng-model="opt" ng-change="MainCtrl.submitSaved(opt)" ng-options="object.city for object in MainCtrl.syncObject">
-					<option value>Saved cities</option>
-				</select>
-				<form name="inputForm" ng-submit="MainCtrl.submitAddress()" class="form-inline top-padding">
-					<div class="form-group">
-						<label class="sr-only" for="cityInput">City</label>
-						<input class="form-control" id="cityInput" ng-model="MainCtrl.address.city" placeholder="Enter city" />
-					</div>
-					<button type="submit" class="btn btn-default">Search</button>
-					<button type="submit" class="btn" ng-click="MainCtrl.saveCity()">Save</button>
-				</form>
+				<div class="row">
+					<form name="cityForm" ng-controller="formController as formCtrl" class="form-inline top-padding" ng-submit="formCtrl.searchCity()">
+						<div>
+							<input type="search" ng-model="formCtrl.inputCity" autofocus class="form-control" placeholder="Enter city" />
+							<input type="submit" class="btn btn-default" value="Search"/>
+						</div>
+						<div class="top-padding">
+							<select class="form-control" title="Saved cities" ng-model="formCtrl.selection" ng-change="formCtrl.selectSaved(formCtrl.selection)" ng-options="object.city for object in formCtrl.savedCities">
+								<option value disabled selected>Saved cities</option>
+							</select>
+							<input type="button" class="btn btn-default" ng-click="formCtrl.saveCity()" value="Save" />
+						</div>
+					</form>
+				</div>
 
-				<div>
-					<div class="row">
-						<div class="col-xs-9">
-							<h1>{{MainCtrl.address.city}}</h1>
-							<p>Current temperature: {{MainCtrl.forecast.currently.temperature | temp}}</p>
-							<p>Probability of rain: {{MainCtrl.forecast.currently.precipProbability}}</p>
-							<p>Pressure: {{MainCtrl.forecast.currently.pressure}}</p>
-							<p>Next hour: {{MainCtrl.forecast.minutely.summary}}</p>
-							<p>This week: {{MainCtrl.forecast.daily.summary}}</p>
-						</div>
-						<div class="col-xs-3 top-padding">
-							<weather-icon></weather-icon>
-						</div>
+				<div class="row">
+					<div class="col-xs-9" ng-controller="forecastController as forecastCtrl">
+						<h1>{{forecastCtrl.city}}</h1>
+						<p>Current temperature: {{forecastCtrl.forecast.currently.temperature | temp}}</p>
+						<p>Probability of rain: {{forecastCtrl.forecast.currently.precipProbability}}</p>
+						<p>Pressure: {{forecastCtrl.forecast.currently.pressure}}</p>
+						<p>Next hour: {{forecastCtrl.forecast.minutely.summary}}</p>
+						<p>This week: {{forecastCtrl.forecast.daily.summary}}</p>
+					</div>
+					<div class="col-xs-3 top-padding">
+						<weather-icon></weather-icon>
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-8">
+
+			<div class="col-xs-8" ng-controller="googleMapsController as mapCtrl">
 				<div id="map-canvas" class="google-maps"></div>
 			</div>
-		</div>
+		</div>	
 	</div>
 
 	<div class="container-fluid">
-		<div class="row top-padding" ng-controller="TabController as tabCtrl">
+		<div class="row top-padding" ng-controller="tabController as tabCtrl">
 			<div class="row">
 				<div class="col-xs-12">
 					<ul class="nav nav-pills">
@@ -93,7 +110,7 @@
 				</div>
 			</div>
 
-			<!--  Hourly forecast graphs  -->
+			<!--  Hourly forecast graphs -->
 			<div class="row text-right" ng-show="tabCtrl.isSet(1)">
 				<div class="col-xs-6">
 					<google-chart type="hourly-temps"></google-chart>
