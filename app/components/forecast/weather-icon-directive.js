@@ -6,10 +6,11 @@
 		return {
 			restric: "E",
 			controller: function($scope) {
-				this.baseUrl = ".//img/";
-				this.imageName = "";
-				this.imgurl = "";
 				var ctrl = this;
+				var baseUrl = ".//img/";
+				var imageName = "";
+				
+				ctrl.imgurl = "";
 
 				this.setImgUrl = function() {
 					var forecast = forecastService.getForecast();
@@ -18,37 +19,37 @@
 					}
 					switch (forecast.currently.icon) {
 						case "clear-day":
-							ctrl.imageName = "clear-day.png";
+							imageName = "clear-day.png";
 							break;
 						case "clear-night":
-							ctrl.imageName = "clear-night.png";
+							imageName = "clear-night.png";
 							break;
 						case "cloudy":
-							ctrl.imageName = "cloudy.png";
+							imageName = "cloudy.png";
 							break;
 						case "fog":
-							ctrl.imageName = "fog.png";
+							imageName = "fog.png";
 							break;
 						case "partly-cloudy-day":
-							ctrl.imageName = "partly-cloudy-day.png";
+							imageName = "partly-cloudy-day.png";
 							break;
 						case "partly-cloudy-night":
-							ctrl.imageName = "partly-cloudy-night.png";
+							imageName = "partly-cloudy-night.png";
 							break;
 						case "rain":
-							ctrl.imageName = "rain.png";
+							imageName = "rain.png";
 							break;
 						case "sleet":
-							ctrl.imageName = "sleet.png";
+							imageName = "sleet.png";
 							break;
 						case "snow":
-							ctrl.imageName = "snow.png";
+							imageName = "snow.png";
 							break;
 						default:
-							ctrl.imageName = "";
+							imageName = "";
 							break;
 					}
-					ctrl.imgurl = ctrl.baseUrl + ctrl.imageName;
+					ctrl.imgurl = baseUrl + imageName;
 				};
 
 				$scope.$on('forecastChanged', ctrl.setImgUrl);

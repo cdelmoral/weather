@@ -4,33 +4,33 @@
 	app.controller('googleMapsController', ['$scope', 'locationService', function($scope, locationService) {
 		var ctrl = this;
 
-		ctrl.mapOptions  = {
+		var mapOptions  = {
 			key: "AIzaSyDmHFUiBuupTJdS9HFLT3zC4Qgd86ZOv6g",
 			center: { lat: null, lng: null},
 			zoom: 8
 		};
 
-		ctrl.coords = {};
-		ctrl.marker = null;
-		ctrl.map = null;
+		var coords = {};
+		var marker = null;
+		var map = null;
 
 		ctrl.updateMap = function() {
-			ctrl.coords = locationService.getCoords();
-			ctrl.mapOptions.center.lat = ctrl.coords.latitude;
-			ctrl.mapOptions.center.lng = ctrl.coords.longitude;
+			coords = locationService.getCoords();
+			mapOptions.center.lat = coords.latitude;
+			mapOptions.center.lng = coords.longitude;
 
 			var latLng;
-			if (ctrl.map == null) {
-				ctrl.map = new google.maps.Map(document.getElementById('map-canvas'), ctrl.mapOptions);
-				latLng = new google.maps.LatLng(ctrl.coords.latitude, ctrl.coords.longitude);
+			if (map == null) {
+				map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+				latLng = new google.maps.LatLng(coords.latitude, coords.longitude);
 			} else {
-				latLng = new google.maps.LatLng(ctrl.coords.latitude, ctrl.coords.longitude);
-				ctrl.map.setCenter(latLng);
-				ctrl.marker.setMap(null);
+				latLng = new google.maps.LatLng(coords.latitude, coords.longitude);
+				map.setCenter(latLng);
+				marker.setMap(null);
 			}
 
-			ctrl.marker = new google.maps.Marker({
-				map: ctrl.map,
+			marker = new google.maps.Marker({
+				map: map,
 				position: latLng
 			});
 		};

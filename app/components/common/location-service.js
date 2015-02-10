@@ -4,15 +4,15 @@
 	app.service('locationService', function($rootScope) {
 		var service = this;
 
-		service.city = null;
-		service.coords = {};
+		var city = null;
+		var coords = {};
 
 		service.getCoords = function() {
-			return service.coords;
+			return coords;
 		};
 
 		service.getCity = function() {
-			return service.city;
+			return city;
 		};
 
 		service.searchCity = function(search) {
@@ -20,8 +20,8 @@
 			geocoder.geocode({'address': search}, function(results, status) {
 				if (status == google.maps.GeocoderStatus.OK) {
 					var location = results[0].geometry.location;
-					service.coords = {latitude: location.lat(), longitude: location.lng()};
-					service.city = results[0].address_components[0].long_name;
+					coords = {latitude: location.lat(), longitude: location.lng()};
+					city = results[0].address_components[0].long_name;
 					$rootScope.$broadcast('coordsChanged');
 				} else {
 					alert('Geocode was not successful for the following reason: ' + status);

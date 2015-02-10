@@ -3,13 +3,13 @@
 
 	app.controller('forecastController', ['$scope', 'forecastService', 'locationService', function($scope, forecastService, locationService) {
 		var ctrl = this;
+		var coords = {};
+
 		ctrl.forecast = {};
 		ctrl.city = null;
 
-		var coords = {};
-
 		ctrl.updateCoords = function() {
-			var coords = locationService.getCoords();
+			coords = locationService.getCoords();
 			ctrl.city = locationService.getCity();
 			forecastService.setCoords(coords.latitude, coords.longitude);
 		}
