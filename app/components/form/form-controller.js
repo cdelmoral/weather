@@ -19,8 +19,20 @@
 		};
 
 		ctrl.saveCity = function() {
-			dbService.saveCity(locationService.getCity());
-			ctrl.savedCities.push(city);
+			var city = locationService.getCity();
+			if (!isAlreadySaved(city)) {
+				dbService.saveCity(city);
+				ctrl.savedCities.push(city);
+			};
 		};
+
+		function isAlreadySaved (city) {
+			for (var i = 0; i < ctrl.savedCities.length; i++) {
+				if (ctrl.savedCities[i].city == city) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}]);
 })();
