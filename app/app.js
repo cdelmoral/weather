@@ -18,6 +18,7 @@
 		'tab-controller',
 		'google-chart-directive',
 		'db-service',
+		'weather-icon-controller',
 		'weather-icon-directive'
 	]);
 
