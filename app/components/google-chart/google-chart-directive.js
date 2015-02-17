@@ -3,16 +3,6 @@
 	var app = angular.module('google-chart-directive', ['forecast-service']);
 
 	app.directive("googleChart", ['forecastService', function(forecastService) {
-		var WEEK_DAYS = [
-			'Sunday',
-			'Monday',
-			'Tuesday',
-			'Wednesday',
-			'Thursday',
-			'Friday',
-			'Saturday'
-		];
-
 		var getChart = function(type) {
 			switch(type) {
 				case "daily-min-max-temps":
@@ -35,6 +25,10 @@
 					title: "Maximum and minimum temperatures",
 					width: 500,
 					height: 300,
+					hAxis: {
+						format: 'E d',
+						slantedText: true
+					},
 					vAxis: {
 						title: "Temperature (\u00B0F)"
 					},
@@ -45,7 +39,7 @@
 			};
 
 			var data = new google.visualization.DataTable();
-			data.addColumn('string', 'Day');
+			data.addColumn('date', 'Day');
 			data.addColumn('number', 'Low');
 			data.addColumn('number', 'High');
 
@@ -54,12 +48,15 @@
 				for (var i = 0; i < dailyData.length; i++) {
 					var dayOfWeek = new Date(dailyData[i].time * 1000);
 					data.addRow([
-						WEEK_DAYS[dayOfWeek.getDay()],
+						dayOfWeek,
 						dailyData[i].temperatureMin,
 						dailyData[i].temperatureMax
 					]);
 				}
 			}
+
+			var formatter = new google.visualization.DateFormat({pattern: 'EEEE d'});
+			formatter.format(data, 0);
 
 			var chart = new google.visualization.LineChart(elm[0]);
 			chart.draw(data, gChart.options);
@@ -72,6 +69,10 @@
 					title: "Temperature",
 					width: 500,
 					height: 300,
+					hAxis: {
+						format: 'E haa',
+						slantedText: true
+					},
 					vAxis: {
 						title: "Temperature (\u00B0F)"
 					},
@@ -82,7 +83,7 @@
 			};
 
 			var data = new google.visualization.DataTable();
-			data.addColumn('string', 'Hour');
+			data.addColumn('date', 'Hour');
 			data.addColumn('number', 'Temperature');
 
 			if (forecast.hourly.data.length > 0) {
@@ -90,11 +91,14 @@
 				for (var i = 0; i < hourlyData.length; i++) {
 					var hourOfDay = new Date(hourlyData[i].time * 1000);
 					data.addRow([
-						hourOfDay.toTimeString() + " " + hourOfDay.getDate(),
+						hourOfDay,
 						hourlyData[i].temperature
 					]);
 				}
 			}
+
+			var formatter = new google.visualization.DateFormat({pattern: 'EEEE haa'});
+			formatter.format(data, 0);
 
 			var chart = new google.visualization.LineChart(elm[0]);
 			chart.draw(data, gChart.options);
@@ -107,6 +111,10 @@
 					title: "Accumulated precipitation",
 					width: 500,
 					height: 300,
+					hAxis: {
+						format: 'E d',
+						slantedText: true
+					},
 					vAxis: {
 						title: "Accumulated precipitation"
 					},
@@ -117,7 +125,7 @@
 			};
 
 			var data = new google.visualization.DataTable();
-			data.addColumn('string', 'Day');
+			data.addColumn('date', 'Day');
 			data.addColumn('number', 'Probability');
 
 			if (forecast.daily.data.length > 0) {
@@ -125,11 +133,14 @@
 				for (var i = 0; i < dailyData.length; i++) {
 					var dayOfWeek = new Date(dailyData[i].time * 1000);
 					data.addRow([
-						WEEK_DAYS[dayOfWeek.getDay()],
+						dayOfWeek,
 						dailyData[i].precipAccumulation
 					]);
 				}
 			}
+
+			var formatter = new google.visualization.DateFormat({pattern: 'EEEE d'});
+			formatter.format(data, 0);
 
 			var chart = new google.visualization.ColumnChart(elm[0]);
 			chart.draw(data, gChart.options);
@@ -142,6 +153,10 @@
 					title: "Precipitation probability",
 					width: 500,
 					height: 300,
+					hAxis: {
+						format: 'E haa',
+						slantedText: true
+					},
 					vAxis: {
 						title: "Precipitation probability"
 					},
@@ -152,7 +167,7 @@
 			};
 
 			var data = new google.visualization.DataTable();
-			data.addColumn('string', 'Hour');
+			data.addColumn('date', 'Hour');
 			data.addColumn('number', 'Probability');
 
 			if (forecast.hourly.data.length > 0) {
@@ -160,11 +175,14 @@
 				for (var i = 0; i < hourlyData.length; i++) {
 					var hourOfDay = new Date(hourlyData[i].time * 1000);
 					data.addRow([
-						hourOfDay.toTimeString() + " " + hourOfDay.getDate(),
+						hourOfDay,
 						hourlyData[i].precipProbability
 					]);
 				}
 			}
+
+			var formatter = new google.visualization.DateFormat({pattern: 'EEEE haa'});
+			formatter.format(data, 0);
 
 			var chart = new google.visualization.ColumnChart(elm[0]);
 			chart.draw(data, gChart.options);
