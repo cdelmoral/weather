@@ -1,16 +1,23 @@
 (function() {
+	'use strict';
 
-	var app = angular.module("filters", []);
+	angular
+		.module("filters", [])
+		.filter('temp', temp);
 
-	app.filter('temp', function($filter) {
-		return function(input) {
+	temp.$inject = ['$filter'];
+
+	function temp($filter) {
+		return tempFilter;
+
+		function tempFilter(input) {
 			if (input !== undefined) {
 				var numberFilter = $filter('number');
 				return numberFilter(input, 1) + '\u00B0F';
 			} else {
 				return '-';
 			}
-		};
-	});
+		}
+	}
 	
 })();

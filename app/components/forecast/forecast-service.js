@@ -1,10 +1,16 @@
 (function() {
-	var app = angular.module('forecast-service', []);
+	'use strict';
+
+	angular
+		.module('forecast-service', [])
+		.service('forecastService', ForecastService);
+
+	ForecastService.$inject = ['$rootScope', '$http'];
 
 	var URL_F_BASE = "https://api.forecast.io/forecast/";
 	var FORECAST_KEY = "1c673c349f398fbbbe6ab58f290abefe";
 
-	app.service('forecastService', ['$rootScope', '$http', function($rootScope, $http) {
+	function ForecastService($rootScope, $http) {
 		var service = this;
 
 		var forecast = {};
@@ -18,10 +24,10 @@
 					$rootScope.$broadcast('forecastChanged');
 				});
 			}
-		}
+		};
 
 		service.getForecast = function() {
 			return forecast;
-		}
-	}]);
+		};
+	}
 })();

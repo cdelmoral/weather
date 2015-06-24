@@ -1,7 +1,13 @@
 (function() {
-	var app = angular.module('form-controller', ['location-service', 'db-service']);
+	'use strict';
+	
+	angular
+		.module('form-controller', ['location-service', 'db-service'])
+		.controller('formController', FormController);
 
-	app.controller('formController', ['locationService', 'dbService', function(locationService, dbService) {
+	FormController.$inject = ['locationService', 'dbService'];
+
+	function FormController(locationService, dbService) {
 		var ctrl = this;
 
 		ctrl.savedCities = dbService.getCities();
@@ -13,7 +19,7 @@
 		};
 
 		ctrl.selectSaved = function(option) {
-			if (option != null) {
+			if (option !== null) {
 				locationService.searchCity(option.city);
 			}
 		};
@@ -23,7 +29,7 @@
 			if (!isAlreadySaved(city)) {
 				dbService.saveCity(city);
 				ctrl.savedCities.push(city);
-			};
+			}
 		};
 
 		function isAlreadySaved (city) {
@@ -34,5 +40,5 @@
 			}
 			return false;
 		}
-	}]);
+	}
 })();

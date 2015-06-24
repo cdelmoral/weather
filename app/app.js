@@ -8,7 +8,7 @@
 	});
 	google.load('visualization', '1', {packages: ['corechart']});
 
-	var app = angular.module('weather', [
+	angular.module('weather', [
 		'filters',
 		'location-service',
 		'google-maps-controller',

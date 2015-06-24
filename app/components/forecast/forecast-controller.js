@@ -1,7 +1,13 @@
 (function() {
-	var app = angular.module('forecast-controller', ['forecast-service']);
+	'use strict';
 
-	app.controller('forecastController', ['$scope', 'forecastService', 'locationService', function($scope, forecastService, locationService) {
+	angular
+		.module('forecast-controller', ['forecast-service'])
+		.controller('forecastController', ForecastController);
+
+	ForecastController.$inject = ['$scope', 'forecastService', 'locationService'];
+
+	function ForecastController($scope, forecastService, locationService) {
 		var ctrl = this;
 		var coords = {};
 
@@ -12,13 +18,13 @@
 			coords = locationService.getCoords();
 			ctrl.city = locationService.getCity();
 			forecastService.setCoords(coords.latitude, coords.longitude);
-		}
+		};
 
 		ctrl.onForecastChanged = function() {
 			ctrl.forecast = forecastService.getForecast();
-		}
+		};
 
 		$scope.$on('forecastChanged', ctrl.onForecastChanged);
-		$scope.$on('coordsChanged', ctrl.updateCoords)
-	}]);
+		$scope.$on('coordsChanged', ctrl.updateCoords);
+	}
 })();

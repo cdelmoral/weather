@@ -1,10 +1,16 @@
 (function() {
-	var app = angular.module('db-service', ['firebase']);
+	'use strict';
 
-	app.service('dbService', ['$firebase', function($firebase) {
+	angular
+		.module('db-service', ['firebase'])
+		.service('dbService', DBService);
+
+	DBService.$inject = ['$firebase'];
+
+	function DBService($firebase) {
 		var service = this;
 
-		var synObject;
+		var syncObject;
 
 		service.getCities = function() {
 			var ref = new Firebase("https://vivid-inferno-5672.firebaseio.com/cities");
@@ -15,6 +21,6 @@
 
 		service.saveCity = function(city) {
 			syncObject.$add({city: city});
-		}
-	}]);
+		};
+	}
 })();

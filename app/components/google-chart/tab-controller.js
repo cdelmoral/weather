@@ -1,7 +1,11 @@
 (function() {
-	var app = angular.module('tab-controller', []);
+	'use strict';
+	
+	angular
+		.module('tab-controller', [])
+		.controller('tabController', TabController);
 
-	app.controller('tabController', function() {
+	function TabController() {
 		var ctrl = this;
 
 		ctrl.tab = 1;
@@ -13,5 +17,5 @@
 		ctrl.setTab = function(activeTab) {
 			ctrl.tab = activeTab;
 		};
-	});
+	}
 })();

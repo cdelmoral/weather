@@ -1,7 +1,13 @@
 (function() {
-	var app = angular.module('location-service', []);
+	'use strict';
 
-	app.service('locationService', function($rootScope) {
+	angular
+		.module('location-service', [])
+		.service('locationService', LocationService);
+
+	LocationService.$inject = ['$rootScope'];
+
+	function LocationService($rootScope) {
 		var service = this;
 
 		var city = null;
@@ -30,5 +36,5 @@
 		};
 
 		service.searchCity("Chicago, IL");
-	});
+	}
 })();

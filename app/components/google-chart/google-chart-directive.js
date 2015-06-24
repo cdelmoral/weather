@@ -1,8 +1,13 @@
 (function() {
+	'use strict';
 
-	var app = angular.module('google-chart-directive', ['forecast-service']);
+	angular
+		.module('google-chart-directive', ['forecast-service'])
+		.directive("googleChart", GoogleChart);
 
-	app.directive("googleChart", ['forecastService', function(forecastService) {
+	GoogleChart.$inject = ['forecastService'];
+
+	function GoogleChart(forecastService) {
 		var getChart = function(type) {
 			switch(type) {
 				case "daily-min-max-temps":
@@ -198,5 +203,5 @@
 				});
 			}
 		};
-	}]);
+	}
 })();

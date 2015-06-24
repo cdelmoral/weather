@@ -1,12 +1,16 @@
 (function() {
-	var app = angular.module('weather-icon-directive', ['weather-icon-controller']);
+    'use strict';
+    
+	angular
+        .module('weather-icon-directive', ['weather-icon-controller'])
+        .directive("weatherIcon", WeatherIcon);
 
-	app.directive("weatherIcon", function() {
-		return {
-			restric: "E",
-			controller: "weatherIconController",
-			templateUrl: "./components/forecast/icon.html",
-			controllerAs: "iconCtrl"
-		};
-	});
+    function WeatherIcon() {
+        return {
+            restric: "E",
+            controller: "weatherIconController",
+            templateUrl: "./components/forecast/icon.html",
+            controllerAs: "iconCtrl"
+        };
+    }
 })();

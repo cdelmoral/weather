@@ -1,7 +1,13 @@
 (function() {
-	var app = angular.module('google-maps-controller', ['location-service']);
+	'use strict';
 
-	app.controller('googleMapsController', ['$scope', 'locationService', function($scope, locationService) {
+	angular
+		.module('google-maps-controller', ['location-service'])
+		.controller('googleMapsController', GoogleMapsController);
+
+	GoogleMapsController.$inject = ['$scope', 'locationService'];
+
+	function GoogleMapsController($scope, locationService) {
 		var ctrl = this;
 
 		var mapOptions  = {
@@ -20,7 +26,7 @@
 			mapOptions.center.lng = coords.longitude;
 
 			var latLng;
-			if (map == null) {
+			if (map === null) {
 				map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 				latLng = new google.maps.LatLng(coords.latitude, coords.longitude);
 			} else {
@@ -36,5 +42,5 @@
 		};
 
 		$scope.$on('coordsChanged', ctrl.updateMap);
-	}]);
+	}
 })();

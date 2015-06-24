@@ -1,7 +1,13 @@
 (function() {
-	var app = angular.module('weather-icon-controller', ['forecast-service']);
+	'use strict';
 
-	app.controller('weatherIconController', ['$scope', 'forecastService', function($scope, forecastService) {
+	angular
+		.module('weather-icon-controller', ['forecast-service'])
+		.controller('weatherIconController', WeatherIconController);
+
+	WeatherIconController.$inject = ['$scope', 'forecastService'];
+
+	function WeatherIconController($scope, forecastService) {
 		
 		var ctrl = this;
 		var baseUrl = ".//img/";
@@ -12,7 +18,7 @@
 		this.setImgUrl = function() {
 			var forecast = forecastService.getForecast();
 
-			if (forecast == undefined) {
+			if (forecast === undefined) {
 				return;
 			}
 
@@ -53,5 +59,5 @@
 		};
 
 		$scope.$on('forecastChanged', ctrl.setImgUrl);
-	}]);
+	}
 })();
