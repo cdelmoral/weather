@@ -8,7 +8,22 @@
 	GoogleChart.$inject = ['forecastService'];
 
 	function GoogleChart(forecastService) {
-		var getChart = function(type) {
+		var directive = {
+			restrict: 'E',
+			template: "<div></div>",
+			replace: true,
+			link: linkFunction
+		};
+
+		return directive;
+
+		function linkFunction ($scope, elm, attrs) {
+			$scope.$on('forecastChanged', function() {
+				getChart(attrs.type)(forecastService.getForecast(), elm, attrs);
+			});
+		}
+
+		function getChart (type) {
 			switch(type) {
 				case "daily-min-max-temps":
 					return dailyMinMaxTemps;
@@ -21,9 +36,9 @@
 				default:
 					return null;
 			}
-		};
+		}
 
-		var dailyMinMaxTemps = function(forecast, elm, attrs) {
+		function dailyMinMaxTemps (forecast, elm, attrs) {
 			var gChart = {
 				data: null,
 				options: {
@@ -65,9 +80,9 @@
 
 			var chart = new google.visualization.LineChart(elm[0]);
 			chart.draw(data, gChart.options);
-		};
+		}
 
-		var hourlyTemps = function(forecast, elm, attrs) {
+		function hourlyTemps (forecast, elm, attrs) {
 			var gChart = {
 				data: null,
 				options: {
@@ -107,9 +122,9 @@
 
 			var chart = new google.visualization.LineChart(elm[0]);
 			chart.draw(data, gChart.options);
-		};
+		}
 
-		var dailyPrecipAcc = function(forecast, elm, attrs) {
+		function dailyPrecipAcc (forecast, elm, attrs) {
 			var gChart = {
 				data: null,
 				options: {
@@ -149,9 +164,9 @@
 
 			var chart = new google.visualization.ColumnChart(elm[0]);
 			chart.draw(data, gChart.options);
-		};
+		}
 
-		var hourlyPrecipProb = function(forecast, elm, attrs) {
+		function hourlyPrecipProb (forecast, elm, attrs) {
 			var gChart = {
 				data: null,
 				options: {
@@ -191,17 +206,6 @@
 
 			var chart = new google.visualization.ColumnChart(elm[0]);
 			chart.draw(data, gChart.options);
-		};
-
-		return {
-			restrict: 'E',
-			template: "<div></div>",
-			replace: true,
-			link: function($scope, elm, attrs) {
-				$scope.$on('forecastChanged', function() {
-					getChart(attrs.type)(forecastService.getForecast(), elm, attrs);
-				});
-			}
-		};
+		}
 	}
 })();
