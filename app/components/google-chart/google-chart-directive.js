@@ -2,12 +2,15 @@
 	'use strict';
 
 	angular
-		.module('google-chart-directive', ['forecast-service'])
+		.module('google-chart-directive', ['google-chart-service'])
 		.directive("googleChart", GoogleChart);
 
-	GoogleChart.$inject = ['forecastService'];
+	var LINE_CHART = 'line';
+	var COLUMN_CHART = 'column';
 
-	function GoogleChart(forecastService) {
+	GoogleChart.$inject = ['googleChartService'];
+
+	function GoogleChart(googleChartService) {
 		var directive = {
 			restrict: 'E',
 			template: "<div></div>",
@@ -17,195 +20,44 @@
 
 		return directive;
 
-		function linkFunction ($scope, elm, attrs) {
+		function linkFunction($scope, elm, attrs) {
 			$scope.$on('forecastChanged', function() {
-				getChart(attrs.type)(forecastService.getForecast(), elm, attrs);
+				updateChart(elm, attrs);
 			});
 		}
 
-		function getChart (type) {
-			switch(type) {
+		function updateChart(elm, attrs) {
+			switch(attrs.type) {
 				case "daily-min-max-temps":
-					return dailyMinMaxTemps;
+					setChartData(LINE_CHART, googleChartService.dailyMinMaxTemps(), elm);
+					break;
 				case "daily-precip-acc":
-					return dailyPrecipAcc;
+					setChartData(COLUMN_CHART, googleChartService.dailyPrecipAcc(), elm);
+					break;
 				case "hourly-temps":
-					return hourlyTemps;
+					setChartData(LINE_CHART, googleChartService.hourlyTemps(), elm);
+					break;
 				case "hourly-precip-prob":
-					return hourlyPrecipProb;
+					setChartData(COLUMN_CHART, googleChartService.hourlyPrecipProb(), elm);
+					break;
 				default:
-					return null;
+					break;
 			}
 		}
 
-		function dailyMinMaxTemps (forecast, elm, attrs) {
-			var gChart = {
-				data: null,
-				options: {
-					title: "Maximum and minimum temperatures",
-					width: 500,
-					height: 300,
-					hAxis: {
-						format: 'E d',
-						slantedText: true
-					},
-					vAxis: {
-						title: "Temperature (\u00B0F)"
-					},
-					legend: {
-						position: "none"
-					}
-				}
-			};
-
-			var data = new google.visualization.DataTable();
-			data.addColumn('date', 'Day');
-			data.addColumn('number', 'Low');
-			data.addColumn('number', 'High');
-
-			if (forecast.daily.data.length > 0) {
-				var dailyData = forecast.daily.data;
-				for (var i = 0; i < dailyData.length; i++) {
-					var dayOfWeek = new Date(dailyData[i].time * 1000);
-					data.addRow([
-						dayOfWeek,
-						dailyData[i].temperatureMin,
-						dailyData[i].temperatureMax
-					]);
-				}
+		function setChartData(type, gChart, elm) {
+			var chart;
+			switch (type) {
+				case LINE_CHART:
+					chart = new google.visualization.LineChart(elm[0]);
+					break;
+				case COLUMN_CHART:
+					chart = new google.visualization.ColumnChart(elm[0]);
+					break;
+				default:
+					break;
 			}
-
-			var formatter = new google.visualization.DateFormat({pattern: 'EEEE d'});
-			formatter.format(data, 0);
-
-			var chart = new google.visualization.LineChart(elm[0]);
-			chart.draw(data, gChart.options);
-		}
-
-		function hourlyTemps (forecast, elm, attrs) {
-			var gChart = {
-				data: null,
-				options: {
-					title: "Temperature",
-					width: 500,
-					height: 300,
-					hAxis: {
-						format: 'E haa',
-						slantedText: true
-					},
-					vAxis: {
-						title: "Temperature (\u00B0F)"
-					},
-					legend: {
-						position: "none"
-					}
-				}
-			};
-
-			var data = new google.visualization.DataTable();
-			data.addColumn('date', 'Hour');
-			data.addColumn('number', 'Temperature');
-
-			if (forecast.hourly.data.length > 0) {
-				var hourlyData = forecast.hourly.data;
-				for (var i = 0; i < hourlyData.length; i++) {
-					var hourOfDay = new Date(hourlyData[i].time * 1000);
-					data.addRow([
-						hourOfDay,
-						hourlyData[i].temperature
-					]);
-				}
-			}
-
-			var formatter = new google.visualization.DateFormat({pattern: 'EEEE haa'});
-			formatter.format(data, 0);
-
-			var chart = new google.visualization.LineChart(elm[0]);
-			chart.draw(data, gChart.options);
-		}
-
-		function dailyPrecipAcc (forecast, elm, attrs) {
-			var gChart = {
-				data: null,
-				options: {
-					title: "Accumulated precipitation",
-					width: 500,
-					height: 300,
-					hAxis: {
-						format: 'E d',
-						slantedText: true
-					},
-					vAxis: {
-						title: "Accumulated precipitation"
-					},
-					legend: {
-						position: "none"
-					}
-				}
-			};
-
-			var data = new google.visualization.DataTable();
-			data.addColumn('date', 'Day');
-			data.addColumn('number', 'Probability');
-
-			if (forecast.daily.data.length > 0) {
-				var dailyData = forecast.daily.data;
-				for (var i = 0; i < dailyData.length; i++) {
-					var dayOfWeek = new Date(dailyData[i].time * 1000);
-					data.addRow([
-						dayOfWeek,
-						dailyData[i].precipAccumulation
-					]);
-				}
-			}
-
-			var formatter = new google.visualization.DateFormat({pattern: 'EEEE d'});
-			formatter.format(data, 0);
-
-			var chart = new google.visualization.ColumnChart(elm[0]);
-			chart.draw(data, gChart.options);
-		}
-
-		function hourlyPrecipProb (forecast, elm, attrs) {
-			var gChart = {
-				data: null,
-				options: {
-					title: "Precipitation probability",
-					width: 500,
-					height: 300,
-					hAxis: {
-						format: 'E haa',
-						slantedText: true
-					},
-					vAxis: {
-						title: "Precipitation probability"
-					},
-					legend: {
-						position: "none"
-					}
-				}
-			};
-
-			var data = new google.visualization.DataTable();
-			data.addColumn('date', 'Hour');
-			data.addColumn('number', 'Probability');
-
-			if (forecast.hourly.data.length > 0) {
-				var hourlyData = forecast.hourly.data;
-				for (var i = 0; i < hourlyData.length; i++) {
-					var hourOfDay = new Date(hourlyData[i].time * 1000);
-					data.addRow([
-						hourOfDay,
-						hourlyData[i].precipProbability
-					]);
-				}
-			}
-
-			var formatter = new google.visualization.DateFormat({pattern: 'EEEE haa'});
-			formatter.format(data, 0);
-
-			var chart = new google.visualization.ColumnChart(elm[0]);
-			chart.draw(data, gChart.options);
+			chart.draw(gChart.data, gChart.options);
 		}
 	}
 })();

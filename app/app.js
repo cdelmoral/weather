@@ -17,6 +17,7 @@
 		'forecast-controller',
 		'tab-controller',
 		'google-chart-directive',
+		'google-chart-service',
 		'db-service',
 		'weather-icon-controller',
 		'weather-icon-directive'
