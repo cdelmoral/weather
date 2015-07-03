@@ -1,18 +1,18 @@
 (function() {
-	'use strict';
+	"use strict";
 
 	angular
-		.module('google-chart-directive', ['google-chart-service'])
+		.module("google-chart-directive", ["google-chart-service"])
 		.directive("googleChart", GoogleChart);
 
-	var LINE_CHART = 'line';
-	var COLUMN_CHART = 'column';
+	var LINE_CHART = "line";
+	var COLUMN_CHART = "column";
 
-	GoogleChart.$inject = ['googleChartService'];
+	GoogleChart.$inject = ["googleChartService"];
 
 	function GoogleChart(googleChartService) {
 		var directive = {
-			restrict: 'E',
+			restrict: "E",
 			template: "<div></div>",
 			replace: true,
 			link: linkFunction
@@ -21,7 +21,7 @@
 		return directive;
 
 		function linkFunction($scope, elm, attrs) {
-			$scope.$on('forecastChanged', function() {
+			$scope.$on("forecastChanged", function() {
 				updateChart(elm, attrs);
 			});
 		}

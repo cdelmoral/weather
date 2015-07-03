@@ -13,6 +13,7 @@
 	function ForecastService($rootScope, $http) {
 		var service = this;
 		service.setCoords = setCoords;
+		service.getForecast = getForecast;
 
 		var forecast = {};
 		var location = {};

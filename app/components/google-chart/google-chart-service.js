@@ -1,11 +1,11 @@
 (function() {
-	'use strict';
+	"use strict";
 	
 	angular
-		.module('google-chart-service', ['forecast-service'])
-		.service('googleChartService', GoogleChartService);
+		.module("google-chart-service", ["forecast-service"])
+		.service("googleChartService", GoogleChartService);
 
-	GoogleChartService.$inject = ['forecastService'];
+	GoogleChartService.$inject = ["forecastService"];
 
 	function GoogleChartService(forecastService) {
 		var service = this;
@@ -23,7 +23,7 @@
 					width: 500,
 					height: 300,
 					hAxis: {
-						format: 'E d',
+						format: "E d",
 						slantedText: true
 					},
 					vAxis: {
@@ -36,9 +36,9 @@
 			};
 
 			var data = new google.visualization.DataTable();
-			data.addColumn('date', 'Day');
-			data.addColumn('number', 'Low');
-			data.addColumn('number', 'High');
+			data.addColumn("date", "Day");
+			data.addColumn("number", "Low");
+			data.addColumn("number", "High");
 
 			var forecast = forecastService.getForecast();
 
@@ -54,7 +54,7 @@
 				}
 			}
 
-			var formatter = new google.visualization.DateFormat({pattern: 'EEEE d'});
+			var formatter = new google.visualization.DateFormat({pattern: "EEEE d"});
 			formatter.format(data, 0);
 
 			gChart.data = data;
@@ -70,7 +70,7 @@
 					width: 500,
 					height: 300,
 					hAxis: {
-						format: 'E haa',
+						format: "E haa",
 						slantedText: true
 					},
 					vAxis: {
@@ -83,8 +83,8 @@
 			};
 
 			var data = new google.visualization.DataTable();
-			data.addColumn('date', 'Hour');
-			data.addColumn('number', 'Temperature');
+			data.addColumn("date", "Hour");
+			data.addColumn("number", "Temperature");
 
 			var forecast = forecastService.getForecast();
 
@@ -99,7 +99,7 @@
 				}
 			}
 
-			var formatter = new google.visualization.DateFormat({pattern: 'EEEE haa'});
+			var formatter = new google.visualization.DateFormat({pattern: "EEEE haa"});
 			formatter.format(data, 0);
 
 			gChart.data = data;
@@ -115,7 +115,7 @@
 					width: 500,
 					height: 300,
 					hAxis: {
-						format: 'E d',
+						format: "E d",
 						slantedText: true
 					},
 					vAxis: {
@@ -128,8 +128,8 @@
 			};
 
 			var data = new google.visualization.DataTable();
-			data.addColumn('date', 'Day');
-			data.addColumn('number', 'Probability');
+			data.addColumn("date", "Day");
+			data.addColumn("number", "Probability");
 
 			var forecast = forecastService.getForecast();
 
@@ -144,7 +144,7 @@
 				}
 			}
 
-			var formatter = new google.visualization.DateFormat({pattern: 'EEEE d'});
+			var formatter = new google.visualization.DateFormat({pattern: "EEEE d"});
 			formatter.format(data, 0);
 
 			gChart.data = data;
@@ -160,7 +160,7 @@
 					width: 500,
 					height: 300,
 					hAxis: {
-						format: 'E haa',
+						format: "E haa",
 						slantedText: true
 					},
 					vAxis: {
@@ -173,8 +173,8 @@
 			};
 
 			var data = new google.visualization.DataTable();
-			data.addColumn('date', 'Hour');
-			data.addColumn('number', 'Probability');
+			data.addColumn("date", "Hour");
+			data.addColumn("number", "Probability");
 
 			var forecast = forecastService.getForecast();
 
@@ -189,7 +189,7 @@
 				}
 			}
 
-			var formatter = new google.visualization.DateFormat({pattern: 'EEEE haa'});
+			var formatter = new google.visualization.DateFormat({pattern: "EEEE haa"});
 			formatter.format(data, 0);
 
 			gChart.data = data;

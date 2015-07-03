@@ -1,11 +1,11 @@
 (function() {
-	'use strict';
+	"use strict";
 
 	angular
-		.module('forecast-controller', ['forecast-service'])
-		.controller('forecastController', ForecastController);
+		.module("forecast-controller", ["forecast-service"])
+		.controller("forecastController", ForecastController);
 
-	ForecastController.$inject = ['$scope', 'forecastService', 'locationService'];
+	ForecastController.$inject = ["$scope", "forecastService", "locationService"];
 
 	function ForecastController($scope, forecastService, locationService) {
 		var ctrl = this;
@@ -24,7 +24,7 @@
 			ctrl.forecast = forecastService.getForecast();
 		};
 
-		$scope.$on('forecastChanged', ctrl.onForecastChanged);
-		$scope.$on('coordsChanged', ctrl.updateCoords);
+		$scope.$on("forecastChanged", ctrl.onForecastChanged);
+		$scope.$on("coordsChanged", ctrl.updateCoords);
 	}
 })();

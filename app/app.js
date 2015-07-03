@@ -4,23 +4,23 @@
 	 * libs to be ready.
 	 */
 	google.setOnLoadCallback(function () {
-		angular.bootstrap(document.body, ['weather']);
+		angular.bootstrap(document.body, ["weather"]);
 	});
-	google.load('visualization', '1', {packages: ['corechart']});
+	google.load("visualization", "1", {packages: ["corechart"]});
 
-	angular.module('weather', [
-		'filters',
-		'location-service',
-		'google-maps-controller',
-		'form-controller',
-		'forecast-service',
-		'forecast-controller',
-		'tab-controller',
-		'google-chart-directive',
-		'google-chart-service',
-		'db-service',
-		'weather-icon-controller',
-		'weather-icon-directive'
+	angular.module("weather", [
+		"filters",
+		"location-service",
+		"google-maps-controller",
+		"form-controller",
+		"forecast-service",
+		"forecast-controller",
+		"tab-controller",
+		"google-chart-directive",
+		"google-chart-service",
+		"db-service",
+		"weather-icon-controller",
+		"weather-icon-directive"
 	]);
 
 })();

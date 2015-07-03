@@ -1,8 +1,8 @@
 (function() {
-    'use strict';
+    "use strict";
     
 	angular
-        .module('weather-icon-directive', ['weather-icon-controller'])
+        .module("weather-icon-directive", ["weather-icon-controller"])
         .directive("weatherIcon", WeatherIcon);
 
     function WeatherIcon() {

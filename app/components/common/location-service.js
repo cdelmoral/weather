@@ -1,11 +1,11 @@
 (function() {
-	'use strict';
+	"use strict";
 
 	angular
-		.module('location-service', [])
-		.service('locationService', LocationService);
+		.module("location-service", [])
+		.service("locationService", LocationService);
 
-	LocationService.$inject = ['$rootScope'];
+	LocationService.$inject = ["$rootScope"];
 
 	function LocationService($rootScope) {
 		var service = this;
@@ -23,14 +23,14 @@
 
 		service.searchCity = function(search) {
 			var geocoder = new google.maps.Geocoder();
-			geocoder.geocode({'address': search}, function(results, status) {
+			geocoder.geocode({"address": search}, function(results, status) {
 				if (status == google.maps.GeocoderStatus.OK) {
 					var location = results[0].geometry.location;
 					coords = {latitude: location.lat(), longitude: location.lng()};
 					city = results[0].address_components[0].long_name;
-					$rootScope.$broadcast('coordsChanged');
+					$rootScope.$broadcast("coordsChanged");
 				} else {
-					alert('Geocode was not successful for the following reason: ' + status);
+					alert("Geocode was not successful for the following reason: " + status);
 				}
 			});
 		};

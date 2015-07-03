@@ -1,11 +1,11 @@
 (function() {
-	'use strict';
+	"use strict";
 
 	angular
-		.module('weather-icon-controller', ['forecast-service'])
-		.controller('weatherIconController', WeatherIconController);
+		.module("weather-icon-controller", ["forecast-service"])
+		.controller("weatherIconController", WeatherIconController);
 
-	WeatherIconController.$inject = ['$scope', 'forecastService'];
+	WeatherIconController.$inject = ["$scope", "forecastService"];
 
 	function WeatherIconController($scope, forecastService) {
 		
@@ -58,6 +58,6 @@
 			ctrl.imgurl = baseUrl + imageName;
 		};
 
-		$scope.$on('forecastChanged', ctrl.setImgUrl);
+		$scope.$on("forecastChanged", ctrl.setImgUrl);
 	}
 })();

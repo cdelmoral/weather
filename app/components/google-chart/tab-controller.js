@@ -1,9 +1,9 @@
 (function() {
-	'use strict';
+	"use strict";
 	
 	angular
-		.module('tab-controller', [])
-		.controller('tabController', TabController);
+		.module("tab-controller", [])
+		.controller("tabController", TabController);
 
 	function TabController() {
 		var ctrl = this;

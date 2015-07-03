@@ -1,11 +1,11 @@
 (function() {
-	'use strict';
+	"use strict";
 
 	angular
-		.module('google-maps-controller', ['location-service'])
-		.controller('googleMapsController', GoogleMapsController);
+		.module("google-maps-controller", ["location-service"])
+		.controller("googleMapsController", GoogleMapsController);
 
-	GoogleMapsController.$inject = ['$scope', 'locationService'];
+	GoogleMapsController.$inject = ["$scope", "locationService"];
 
 	function GoogleMapsController($scope, locationService) {
 		var ctrl = this;
@@ -27,7 +27,7 @@
 
 			var latLng;
 			if (map === null) {
-				map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+				map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 				latLng = new google.maps.LatLng(coords.latitude, coords.longitude);
 			} else {
 				latLng = new google.maps.LatLng(coords.latitude, coords.longitude);
@@ -41,6 +41,6 @@
 			});
 		};
 
-		$scope.$on('coordsChanged', ctrl.updateMap);
+		$scope.$on("coordsChanged", ctrl.updateMap);
 	}
 })();

@@ -1,11 +1,11 @@
 (function() {
-	'use strict';
+	"use strict";
 	
 	angular
-		.module('form-controller', ['location-service', 'db-service'])
-		.controller('formController', FormController);
+		.module("form-controller", ["location-service", "db-service"])
+		.controller("formController", FormController);
 
-	FormController.$inject = ['locationService', 'dbService'];
+	FormController.$inject = ["locationService", "dbService"];
 
 	function FormController(locationService, dbService) {
 		var ctrl = this;

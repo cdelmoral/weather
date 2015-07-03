@@ -1,11 +1,11 @@
 (function() {
-	'use strict';
+	"use strict";
 
 	angular
-		.module('db-service', ['firebase'])
-		.service('dbService', DBService);
+		.module("db-service", ["firebase"])
+		.service("dbService", DBService);
 
-	DBService.$inject = ['$firebase'];
+	DBService.$inject = ["$firebase"];
 
 	function DBService($firebase) {
 		var service = this;
